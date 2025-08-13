@@ -23,12 +23,13 @@ router.post("/register", async (req, res) => {
   });
 
   if (user) {
-    generateToken(res, user._id);
+    const token = generateToken(res, user._id, true);
 
     res.status(201).json({
       _id: user._id,
       username: user.username,
       email: user.email,
+      token,
     });
   } else {
     res.status(400);
@@ -53,12 +54,13 @@ router.post(
         return res.status(400).json({ msg: "Invalid credentials" });
       }
 
-      generateToken(res, user._id);
-
+      //generateToken(res, user._id);
+      const token = generateToken(res, user._id, true);
       res.json({
         _id: user._id,
         username: user.username,
         email: user.email,
+        token, // <-- send JWT
       });
     } catch (err) {
       console.error(err.message);

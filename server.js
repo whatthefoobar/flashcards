@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import authRoutes from "./routes/auth.js";
 import flashcardRoutes from "./routes/flashcards.js";
 import connectDB from "./config/connectToDB.js";
+import cookieParser from "cookie-parser";
 
 dotenv.config();
 
@@ -10,6 +11,7 @@ connectDB();
 
 const app = express();
 app.use(json());
+app.use(cookieParser());
 
 app.use("/api/auth", authRoutes);
 app.use("/api/flashcards", flashcardRoutes);
