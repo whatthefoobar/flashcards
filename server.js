@@ -11,14 +11,13 @@ connectDB();
 const app = express();
 app.use(json());
 
-const PORT = process.env.PORT || 5500;
-
+app.use("/api/auth", authRoutes);
+app.use("/api/flashcards", flashcardRoutes);
 app.get("/", (req, res) => {
   res.send(`Flashcard app backend is running on port ${PORT}`);
 });
-app.use("/api/auth", authRoutes);
-app.use("/api/flashcards", flashcardRoutes);
 
+const PORT = process.env.PORT || 5500;
 app.listen(PORT, () =>
   console.log(
     `Server running in ${process.env.NODE_ENV} mode on http://localhost:${PORT}`
