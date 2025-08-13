@@ -7,7 +7,6 @@ const router = Router();
 // Create a new learning set
 router.post("/sets", auth, async (req, res) => {
   const { title, cards } = req.body;
-  console.log(req.user._id);
 
   try {
     const newSet = new FlashcardSet({
@@ -80,8 +79,6 @@ router.delete("/sets/:id", auth, async (req, res) => {
 
 // Get all sets
 router.get("/sets", auth, async (req, res) => {
-  console.log(req.user.id);
-
   try {
     const sets = await FlashcardSet.find({ user: req.user.id });
     res.json(sets);
