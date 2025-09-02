@@ -4,12 +4,21 @@ import authRoutes from "./routes/auth.js";
 import flashcardRoutes from "./routes/flashcards.js";
 import connectDB from "./config/connectToDB.js";
 import cookieParser from "cookie-parser";
+import cors from "cors";
 
 dotenv.config();
 
 connectDB();
 
 const app = express();
+
+app.use(
+  cors({
+    origin: "http://localhost:5173", // your React frontend
+    credentials: true, // if you're using cookies/auth headers
+  })
+);
+
 app.use(json());
 app.use(cookieParser());
 
