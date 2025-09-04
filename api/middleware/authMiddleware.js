@@ -4,7 +4,7 @@ export default function (req, res, next) {
   const token =
     // req.header("x-auth-token") || req.header("Authorization")?.split(" ")[1];
     //x-auth-token is just a manual way of adding a token header, it is overkill if Authorization works
-    req.header("Authorization")?.split(" ")[1];
+    req.cookies?.jwt || req.header("Authorization")?.split(" ")[1];
 
   if (!token) {
     return res.status(401).json({ msg: "No token, authorization denied" });

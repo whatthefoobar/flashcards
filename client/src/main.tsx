@@ -13,6 +13,8 @@ import Home from "./pages/Home.tsx";
 import Register from "./pages/Register.tsx";
 import LoginForm from "./components/LoginForm.tsx";
 import MyProfile from "./pages/MyProfile.tsx";
+import { Provider } from "react-redux";
+import { store } from "./store.ts";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -28,6 +30,8 @@ const router = createBrowserRouter(
 
 createRoot(document.getElementById("root")! as HTMLElement).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <Provider store={store}>
+      <RouterProvider router={router} />
+    </Provider>
   </StrictMode>
 );

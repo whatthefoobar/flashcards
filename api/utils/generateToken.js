@@ -5,16 +5,16 @@ const generateToken = (res, userId, sendAsJson = false) => {
     expiresIn: "30d",
   });
 
-  if (sendAsJson) {
-    // For testing in Postman — send back as JSON instead of cookie
-    return token;
-  }
+  // if (sendAsJson) {
+  //   // For testing in Postman — send back as JSON instead of cookie
+  //   return token;
+  // }
 
   // Set JWT as an HTTP-Only cookie for production use
   res.cookie("jwt", token, {
     httpOnly: true,
     secure: process.env.NODE_ENV !== "development", // HTTPS only in production
-    sameSite: "strict", // CSRF protection
+    sameSite: "lax", // or "none" if using https
     maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
   });
 

@@ -1,27 +1,50 @@
+import { useEffect, useState } from "react";
+import { useAppSelector, useAppDispatch } from "../hooks";
+import { fetchFlashcardSets } from "../slices/flashcardSetsSlice";
 import MySets from "../components/Mysets";
 import Navbar from "../components/Navbar";
 
-// this will be imported from the db
-// get all usernames sets and list them
-const sampleSets = [
-  { id: "1", name: "Learn basic Swedish" },
-  { id: "2", name: "Learn basic Romanian" },
-  { id: "3", name: "Learn basic Spanish" },
-  { id: "4", name: "Geography" },
-  { id: "5", name: "Physics" },
-  { id: "6", name: "Chemistry" },
-  { id: "7", name: "Literature" },
-  { id: "8", name: "Art" },
-];
-
 const MyProfile = () => {
+  const dispatch = useAppDispatch();
+  const user = useAppSelector((state) => state.users.currentUser);
+  const flashcardSets = useAppSelector((state) => state.flashcardSets.sets);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    console.log(user);
+  }, [user]);
+
+  useEffect(() => {
+    console.log("the loaded sets:", flashcardSets);
+  }, [flashcardSets]);
+
+  useEffect(() => {
+    const loadSets = async () => {
+      try {
+        await dispatch(fetchFlashcardSets()).unwrap();
+      } catch (err) {
+        console.error("Failed to load sets", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (user) {
+      loadSets();
+    }
+  }, [dispatch, user]);
+
+  if (!user) return <div>Please log in</div>;
+  if (loading) return <div>Loading your sets...</div>;
+
   return (
     <div>
       <Navbar />
-      <h2>Welcome Username</h2>
-      <MySets sets={sampleSets} />
+      <h2 className="text-2xl font-bold mb-4">Welcome {user.username}</h2>
+      <MySets
+        sets={flashcardSets.map((set) => ({ id: set._id, name: set.title }))}
+      />
     </div>
   );
 };
-
 export default MyProfile;

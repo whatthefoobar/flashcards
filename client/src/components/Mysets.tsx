@@ -17,7 +17,8 @@ const MySets: React.FC<MySetsProps> = ({ sets }) => {
         {sets.map((set) => (
           <Link
             key={set.id}
-            to={`/${set.name}`}
+            // to={`/${set.name}`}
+            to={`/demo`}
             className="w-full h-32 bg-blue-200 rounded-lg shadow-md flex items-center justify-center font-semibold text-lg hover:bg-blue-300 transition"
           >
             {set.name}
