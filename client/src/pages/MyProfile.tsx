@@ -52,7 +52,9 @@ const MyProfile = () => {
   return (
     <div>
       <Navbar />
-      <h2 className="text-2xl font-bold mb-4">Welcome {user.username}</h2>
+      <h2 className="text-2xl font-bold mb-4 capitalize">
+        Welcome {user.username}
+      </h2>
       <MySets
         sets={flashcardSets.map((set) => ({ id: set._id, name: set.title }))}
       />

@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Menu, X } from "lucide-react"; // simple icons
+import { useAppSelector } from "../hooks";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
+  const user = useAppSelector((state) => state.users.currentUser);
 
   const handleLogout = async () => {
     try {
@@ -27,7 +29,9 @@ const Navbar = () => {
 
         {/* Desktop menu */}
         <div className="hidden md:flex items-center space-x-6">
-          <span>👤 Username</span>
+          <span>
+            <p className="capitalize">👤 {user?.username}</p>
+          </span>
           <button
             onClick={handleLogout}
             className="bg-white text-blue-600 px-3 py-1 rounded hover:bg-gray-200 transition"
