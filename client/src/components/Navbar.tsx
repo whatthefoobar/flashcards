@@ -1,12 +1,15 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Menu, X } from "lucide-react"; // simple icons
+import { Menu, X } from "lucide-react";
 import { useAppSelector } from "../hooks";
+import { useDispatch } from "react-redux";
+import { logout } from "../slices/usersSlice";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
   const user = useAppSelector((state) => state.users.currentUser);
+  const dispatch = useDispatch();
 
   const handleLogout = async () => {
     try {
@@ -14,7 +17,14 @@ const Navbar = () => {
         method: "POST",
         credentials: "include",
       });
+
+      // Clear Redux state
+      dispatch(logout());
+
+      // Optional: clear token from localStorage if using JWT
       localStorage.removeItem("token");
+
+      // Redirect to login
       navigate("/login");
     } catch (error) {
       console.error("Logout failed:", error);
@@ -38,9 +48,9 @@ const Navbar = () => {
         <div className="hidden md:flex items-center space-x-6">
           {user ? (
             <>
-              <span>
-                <p className="capitalize">👤 {user.username}</p>
-              </span>
+              <Link to="/myprofile" className="capitalize hover:underline">
+                👤 {user.username}
+              </Link>
               <button
                 onClick={handleLogout}
                 className="bg-white text-blue-600 px-3 py-1 rounded hover:bg-gray-200 transition"
@@ -69,7 +79,9 @@ const Navbar = () => {
         <div className="md:hidden bg-blue-700 px-4 pb-4 space-y-3">
           {user ? (
             <>
-              <div className="text-white capitalize">👤 {user.username}</div>
+              <Link to="/myprofile" className="text-white capitalize block ">
+                👤 {user.username}
+              </Link>
               <button
                 onClick={handleLogout}
                 className="w-full bg-white text-blue-600 px-3 py-2 rounded hover:bg-gray-200 transition"
