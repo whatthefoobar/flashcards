@@ -51,7 +51,6 @@ const MyProfile = () => {
 
   return (
     <div>
-      <Navbar />
       <h2 className="text-2xl font-bold mb-4 capitalize">
         Welcome {user.username}
       </h2>
