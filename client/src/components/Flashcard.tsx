@@ -39,7 +39,17 @@ const Flashcard = ({ front, back, audioUrl }: FlashcardProps) => {
 
   return (
     <div
-      className="relative w-full sm:w-72 md:w-80 lg:w-[600px] h-48 cursor-pointer "
+      // className="relative w-full sm:w-72 md:w-80 lg:w-[600px] h-48 cursor-pointer "
+      className="
+    relative
+    w-full
+    sm:w-96         /* 24rem (~384px) on small screens */
+    md:w-[28rem]    /* ~448px on medium screens */
+    lg:w-[700px]    /* 700px on large screens */
+    h-64            /* 16rem (~256px) height */
+    xl:h-72         /* 18rem (~288px) on extra-large screens */
+    cursor-pointer
+  "
       onClick={() => setFlipped(!flipped)}
       style={{ perspective: "1000px" }}
     >
