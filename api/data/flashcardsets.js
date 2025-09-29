@@ -7,38 +7,47 @@ const sets = [
       {
         question: "hi",
         answer: "hej",
+        audioUrl: "/assets/audio/hej.m4a",
       },
       {
         question: "goodbye",
         answer: "hej då",
+        audioUrl: "/assets/audio/hej da.m4a",
       },
       {
         question: "good morning",
         answer: "godmorgon",
+        audioUrl: "/assets/audio/hej.m4a",
       },
       {
         question: "goodnight",
         answer: "godnatt",
+        audioUrl: "/assets/audio/hej.m4a",
       },
       {
         question: "meatballs",
         answer: "köttbullar",
+        audioUrl: "/assets/audio/hej.m4a",
       },
       {
         question: "fisk",
         answer: "fish",
+        audioUrl: "/assets/audio/hej.m4a",
       },
       {
         question: "whats your name?",
         answer: "vad heter du?",
+        audioUrl: "/assets/audio/hej.m4a",
       },
       {
         question: "I can speak Swedish",
-        answer: "ag kan prata svenska",
+        answer: "Jag kan prata svenska",
+        audioUrl: "/assets/audio/hej.m4a",
       },
       {
         question: "Sweden",
         answer: "Sverige",
+        audioUrl: "/assets/audio/hej.m4a",
       },
     ],
   },

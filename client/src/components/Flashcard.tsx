@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Play, Pause } from "lucide-react";
 
 interface FlashcardProps {
@@ -24,6 +24,18 @@ const Flashcard = ({ front, back, audioUrl }: FlashcardProps) => {
       }
     }
   };
+
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    const handleEnded = () => setIsPlaying(false);
+
+    audio.addEventListener("ended", handleEnded);
+    return () => {
+      audio.removeEventListener("ended", handleEnded);
+    };
+  }, [audioRef]);
 
   return (
     <div

@@ -1,5 +1,6 @@
+// card inside a set
 export interface Card {
-  _id: string;
+  _id?: string;
   question: string;
   answer: string;
   audioUrl?: string;

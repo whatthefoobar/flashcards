@@ -21,6 +21,10 @@ const flashcardSetSchema = mongoose.Schema(
           type: String,
           required: true,
         },
+        audioUrl: {
+          type: String,
+          required: false,
+        },
       },
     ],
   },
