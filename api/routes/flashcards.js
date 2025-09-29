@@ -23,6 +23,12 @@ router.post("/sets", auth, async (req, res) => {
   }
 });
 
+// GET /api/sets/:id
+router.get("/sets/:id", async (req, res) => {
+  const set = await FlashcardSet.findById(req.params.id);
+  res.json(set); // set.flashcards should be an array of { front, back, audioUrl }
+});
+
 // Add a new question and answer to the set
 router.put("/sets/:id", auth, async (req, res) => {
   const { question, answer } = req.body;

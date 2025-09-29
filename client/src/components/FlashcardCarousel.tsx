@@ -1,55 +1,43 @@
 import { useState } from "react";
-import Flashcard from "./Flashcard"; // Import your Flashcard component
+import Flashcard from "./Flashcard";
+import { Card } from "../types";
 
-const flashcardsData = [
-  {
-    front: "Apple",
-    back: "Manzana",
-    audioUrl: "/assets/audio/sample.mp3",
-  },
-  {
-    front: "Book",
-    back: "Libro",
-  },
-  {
-    front: "House",
-    back: "Casa",
-  },
-];
+interface FlashcardCarouselProps {
+  flashcards: Card[];
+}
 
-const FlashcardCarousel = () => {
+const FlashcardCarousel = ({ flashcards }: FlashcardCarouselProps) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  // Function to go to the next card
-  const nextCard = () => {
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % flashcardsData.length);
-  };
+  if (!flashcards || flashcards.length === 0) {
+    return <p>No flashcards available.</p>;
+  }
 
-  // Function to go to the previous card
-  const prevCard = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex === 0 ? flashcardsData.length - 1 : prevIndex - 1
-    );
-  };
+  const nextCard = () =>
+    setCurrentIndex((prev) => (prev + 1) % flashcards.length);
 
+  const prevCard = () =>
+    setCurrentIndex((prev) => (prev === 0 ? flashcards.length - 1 : prev - 1));
+
+  const card = flashcards[currentIndex];
   return (
     <div className="flex flex-col items-center p-4">
       <Flashcard
-        front={flashcardsData[currentIndex].front}
-        back={flashcardsData[currentIndex].back}
-        audioUrl={flashcardsData[currentIndex].audioUrl}
+        front={card.question}
+        back={card.answer}
+        audioUrl={card.audioUrl}
       />
 
       <div className="mt-4 flex gap-4">
         <button
           onClick={prevCard}
-          className="p-2 bg-blue-500 text-white rounded-full shadow-md hover:bg-blue-600"
+          className="px-6 py-2  bg-blue-500 text-white rounded-full shadow-md hover:bg-blue-600"
         >
           Previous
         </button>
         <button
           onClick={nextCard}
-          className="p-2 bg-blue-500 text-white rounded-full shadow-md hover:bg-blue-600"
+          className="px-6 py-2  bg-blue-500 text-white rounded-full shadow-md hover:bg-blue-600"
         >
           Next
         </button>

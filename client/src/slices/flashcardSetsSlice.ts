@@ -1,10 +1,6 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
-
-interface Card {
-  question: string;
-  answer: string;
-}
+import { Card } from "../types";
 
 interface FlashcardSet {
   _id: string;
@@ -25,17 +21,27 @@ const initialState: FlashcardSetsState = {
   error: null,
 };
 
-// Thunk to fetch sets from backend assoc to a logged in user
+// ✅ fetch all sets for the logged-in user
 export const fetchFlashcardSets = createAsyncThunk(
   "flashcardSets/fetchFlashcardSets",
   async () => {
     const response = await axios.get(
       "http://localhost:5500/api/flashcards/sets",
-      { withCredentials: true } // important for auth middleware
+      { withCredentials: true }
     );
-    console.log(response.data);
+    return response.data as FlashcardSet[];
+  }
+);
 
-    return response.data; // array of sets
+// ✅ fetch a single set by id
+export const fetchFlashcardSetById = createAsyncThunk(
+  "flashcardSets/fetchFlashcardSetById",
+  async (id: string) => {
+    const response = await axios.get(
+      `http://localhost:5500/api/flashcards/sets/${id}`,
+      { withCredentials: true }
+    );
+    return response.data as FlashcardSet;
   }
 );
 
@@ -45,6 +51,7 @@ const flashcardSetsSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
+      // --- all sets ---
       .addCase(fetchFlashcardSets.pending, (state) => {
         state.status = "loading";
       })
@@ -58,6 +65,25 @@ const flashcardSetsSlice = createSlice({
       .addCase(fetchFlashcardSets.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message || "Failed to fetch sets";
+      })
+
+      // --- single set ---
+      .addCase(
+        fetchFlashcardSetById.fulfilled,
+        (state, action: PayloadAction<FlashcardSet>) => {
+          // If the set is already in the array, update it; otherwise add it
+          const index = state.sets.findIndex(
+            (s) => s._id === action.payload._id
+          );
+          if (index >= 0) {
+            state.sets[index] = action.payload;
+          } else {
+            state.sets.push(action.payload);
+          }
+        }
+      )
+      .addCase(fetchFlashcardSetById.rejected, (state, action) => {
+        state.error = action.error.message || "Failed to fetch set";
       });
   },
 });

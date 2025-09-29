@@ -27,7 +27,7 @@ const Flashcard = ({ front, back, audioUrl }: FlashcardProps) => {
 
   return (
     <div
-      className="relative w-full sm:w-72 md:w-80 lg:w-[600px] h-48 cursor-pointer border-2 border-red-500" // Fixed height for consistency
+      className="relative w-full sm:w-72 md:w-80 lg:w-[600px] h-48 cursor-pointer "
       onClick={() => setFlipped(!flipped)}
       style={{ perspective: "1000px" }}
     >

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useAppSelector, useAppDispatch } from "../hooks";
 import { fetchFlashcardSets } from "../slices/flashcardSetsSlice";
 import MySets from "../components/Mysets";
-import Navbar from "../components/Navbar";
+// import Navbar from "../components/Navbar";
 import { Link } from "react-router-dom";
 
 const MyProfile = () => {
@@ -54,9 +54,7 @@ const MyProfile = () => {
       <h2 className="text-2xl font-bold mb-4 capitalize">
         Welcome {user.username}
       </h2>
-      <MySets
-        sets={flashcardSets.map((set) => ({ id: set._id, name: set.title }))}
-      />
+      <MySets sets={flashcardSets} />
     </div>
   );
 };

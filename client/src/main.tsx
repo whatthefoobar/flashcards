@@ -15,6 +15,7 @@ import LoginForm from "./components/LoginForm.tsx";
 import MyProfile from "./pages/MyProfile.tsx";
 import { Provider } from "react-redux";
 import { store } from "./store.ts";
+import SetPage from "./pages/SetPage.tsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -24,6 +25,7 @@ const router = createBrowserRouter(
       <Route path="/login" element={<LoginForm />} />
       <Route path="/demo" element={<Demo />} />
       <Route path="/myprofile" element={<MyProfile />} />
+      <Route path="/sets/:id" element={<SetPage />} />
     </Route>
   )
 );
