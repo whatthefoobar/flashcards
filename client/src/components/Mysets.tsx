@@ -5,6 +5,7 @@ interface MySetsProps {
   sets: FlashcardSet[];
 }
 
+// gallery of my flashcard sets
 const MySets = ({ sets }: MySetsProps) => {
   return (
     <div className="max-w-7xl mx-auto p-4">

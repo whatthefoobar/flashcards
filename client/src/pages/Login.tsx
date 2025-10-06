@@ -1,9 +1,9 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../hooks";
 import { loginUser } from "../slices/usersSlice";
 
-const LoginForm = () => {
+const Login = () => {
   const [formData, setFormData] = useState({ username: "", password: "" });
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
@@ -28,7 +28,6 @@ const LoginForm = () => {
       setMessage(error.message || "Login failed");
     }
   };
-
   return (
     <div className="max-w-md mx-auto mt-10 p-6 bg-white shadow-lg rounded-lg">
       <h2 className="text-2xl font-bold mb-4">Log In</h2>
@@ -60,4 +59,4 @@ const LoginForm = () => {
   );
 };
 
-export default LoginForm;
+export default Login;

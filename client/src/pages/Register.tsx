@@ -26,7 +26,7 @@ const Register = () => {
 
     try {
       const resultAction = await dispatch(registerUser(formData));
-
+      //hecking if the dispatched action succeeded (i.e., the backend request resolved without error).
       if (registerUser.fulfilled.match(resultAction)) {
         setMessage("✅ Registration successful!");
 

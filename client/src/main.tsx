@@ -11,18 +11,18 @@ import {
 import Demo from "./pages/Demo.tsx";
 import Home from "./pages/Home.tsx";
 import Register from "./pages/Register.tsx";
-import LoginForm from "./components/LoginForm.tsx";
 import MyProfile from "./pages/MyProfile.tsx";
 import { Provider } from "react-redux";
 import { store } from "./store.ts";
 import SetPage from "./pages/SetPage.tsx";
+import Login from "./pages/Login.tsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
       <Route index={true} element={<Home />} />
       <Route path="/register" element={<Register />} />
-      <Route path="/login" element={<LoginForm />} />
+      <Route path="/login" element={<Login />} />
       <Route path="/demo" element={<Demo />} />
       <Route path="/myprofile" element={<MyProfile />} />
       <Route path="/sets/:id" element={<SetPage />} />

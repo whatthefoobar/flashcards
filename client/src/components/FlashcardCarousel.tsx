@@ -28,6 +28,7 @@ const FlashcardCarousel = ({ flashcards }: FlashcardCarouselProps) => {
         audioUrl={card.audioUrl}
       />
 
+      {/* back & fwd buttons */}
       <div className="mt-4 flex gap-4">
         <button
           onClick={prevCard}

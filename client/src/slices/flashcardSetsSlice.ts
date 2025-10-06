@@ -1,32 +1,18 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
-import { Card } from "../types";
+import {
+  Card,
+  FlashcardSet,
+  FlashcardSetPayload,
+  FlashcardSetsState,
+} from "../types";
 import { FLASHCARDS_BASE_URL } from "../utils/apiBase";
-
-interface FlashcardSet {
-  _id: string;
-  user: string;
-  title: string;
-  cards: Card[];
-}
-
-interface FlashcardSetsState {
-  sets: FlashcardSet[];
-  status: "idle" | "loading" | "succeeded" | "failed";
-  error: string | null;
-}
 
 const initialState: FlashcardSetsState = {
   sets: [],
   status: "idle",
   error: null,
 };
-
-interface FlashcardSetPayload {
-  title: string;
-  user: string;
-  cards: Card[];
-}
 
 // --- fetch all sets ---
 export const fetchFlashcardSets = createAsyncThunk(
