@@ -1,8 +1,11 @@
 import { useState } from "react";
-import { registerUser } from "../slices/usersSlice";
+import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../hooks";
+import { loginUser, registerUser } from "../slices/usersSlice";
+
 const Register = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const { status, error } = useAppSelector((state) => state.users);
 
   const [formData, setFormData] = useState({
@@ -25,10 +28,19 @@ const Register = () => {
       const resultAction = await dispatch(registerUser(formData));
 
       if (registerUser.fulfilled.match(resultAction)) {
-        setMessage("✅ Registration successful! You can now log in.");
-        setFormData({ username: "", email: "", password: "" });
+        setMessage("✅ Registration successful!");
+
+        // Automatically log the user in
+        await dispatch(
+          loginUser({
+            username: formData.username,
+            password: formData.password,
+          })
+        );
+
+        // Redirect to /myprofile
+        navigate("/myprofile");
       } else {
-        // Thunk was rejected
         const errMsg =
           (resultAction.payload as string) ||
           resultAction.error.message ||
@@ -40,6 +52,7 @@ const Register = () => {
       setMessage("Something went wrong.");
     }
   };
+
   return (
     <div className="max-w-md mx-auto mt-10 p-6 bg-white shadow-lg rounded-lg">
       <h2 className="text-2xl font-bold mb-4">Register</h2>
