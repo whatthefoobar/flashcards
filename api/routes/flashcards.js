@@ -30,24 +30,29 @@ router.get("/sets/:id", async (req, res) => {
 });
 
 // Add a new question and answer to the set
-router.put("/sets/:id", auth, async (req, res) => {
-  const { question, answer } = req.body;
-
-  try {
-    let set = await FlashcardSet.findById(req.params.id);
-    if (!set) {
-      return res.status(404).json({ msg: "Set not found" });
-    }
-
-    set.cards.push({ question, answer });
-
-    await set.save();
-    res.json(set);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send("Server error");
-  }
+router.put("/sets/:id", async (req, res) => {
+  const { title, cards } = req.body;
+  await FlashcardSet.findByIdAndUpdate(req.params.id, { title, cards });
+  res.json({ success: true });
 });
+// router.put("/sets/:id", auth, async (req, res) => {
+//   const { question, answer } = req.body;
+
+//   try {
+//     let set = await FlashcardSet.findById(req.params.id);
+//     if (!set) {
+//       return res.status(404).json({ msg: "Set not found" });
+//     }
+
+//     set.cards.push({ question, answer });
+
+//     await set.save();
+//     res.json(set);
+//   } catch (err) {
+//     console.error(err.message);
+//     res.status(500).send("Server error");
+//   }
+// });
 
 // Delete a question and answer from the set
 router.delete("/sets/:setId/cards/:cardId", auth, async (req, res) => {

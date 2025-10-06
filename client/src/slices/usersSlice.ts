@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
+import { USERS_BASE_URL } from "../utils/apiBase";
 
 interface User {
   _id?: string;
@@ -22,23 +23,13 @@ const initialState: UsersState = {
   error: null,
 };
 
-// Fetch all users
-export const fetchUsers = createAsyncThunk("users/fetchUsers", async () => {
-  const response = await axios.get("http://localhost:5500/api/users", {
-    withCredentials: true,
-  });
-  return response.data; // array of users
-});
-
 // Login user
 export const loginUser = createAsyncThunk(
   "users/loginUser",
   async (credentials: { username: string; password: string }) => {
-    const response = await axios.post(
-      "http://localhost:5500/api/auth/login",
-      credentials,
-      { withCredentials: true }
-    );
+    const response = await axios.post(`${USERS_BASE_URL}/login`, credentials, {
+      withCredentials: true,
+    });
     return response.data; // logged-in user
   }
 );
@@ -47,11 +38,9 @@ export const loginUser = createAsyncThunk(
 export const registerUser = createAsyncThunk(
   "users/registerUser",
   async (user: { username: string; email: string; password: string }) => {
-    const response = await axios.post(
-      "http://localhost:5500/api/auth/register",
-      user,
-      { withCredentials: true }
-    );
+    const response = await axios.post(`${USERS_BASE_URL}/register`, user, {
+      withCredentials: true,
+    });
     return response.data;
   }
 );
@@ -66,9 +55,9 @@ const usersSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchUsers.fulfilled, (state, action: PayloadAction<User[]>) => {
-        state.users = action.payload;
-      })
+      // .addCase(fetchUsers.fulfilled, (state, action: PayloadAction<User[]>) => {
+      //   state.users = action.payload;
+      // })
       .addCase(loginUser.fulfilled, (state, action: PayloadAction<User>) => {
         state.currentUser = action.payload;
       })
@@ -80,3 +69,11 @@ const usersSlice = createSlice({
 
 export const { logout } = usersSlice.actions;
 export default usersSlice.reducer;
+
+// Fetch all users // not used anywhere
+// export const fetchUsers = createAsyncThunk("users/fetchUsers", async () => {
+//   const response = await axios.get("http://localhost:5500/api/users", {
+//     withCredentials: true,
+//   });
+//   return response.data; // array of users
+// });

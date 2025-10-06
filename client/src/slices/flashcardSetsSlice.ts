@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 import { Card } from "../types";
+import { FLASHCARDS_BASE_URL } from "../utils/apiBase";
 
 interface FlashcardSet {
   _id: string;
@@ -21,25 +22,56 @@ const initialState: FlashcardSetsState = {
   error: null,
 };
 
-// ✅ fetch all sets for the logged-in user
+interface FlashcardSetPayload {
+  title: string;
+  user: string;
+  cards: Card[];
+}
+
+// --- fetch all sets ---
 export const fetchFlashcardSets = createAsyncThunk(
   "flashcardSets/fetchFlashcardSets",
   async () => {
-    const response = await axios.get(
-      "http://localhost:5500/api/flashcards/sets",
-      { withCredentials: true }
-    );
+    const response = await axios.get(`${FLASHCARDS_BASE_URL}/sets`, {
+      withCredentials: true,
+    });
     return response.data as FlashcardSet[];
   }
 );
 
-// ✅ fetch a single set by id
+// --- fetch one set ---
 export const fetchFlashcardSetById = createAsyncThunk(
   "flashcardSets/fetchFlashcardSetById",
   async (id: string) => {
-    const response = await axios.get(
-      `http://localhost:5500/api/flashcards/sets/${id}`,
-      { withCredentials: true }
+    const response = await axios.get(`${FLASHCARDS_BASE_URL}/sets/${id}`, {
+      withCredentials: true,
+    });
+    return response.data as FlashcardSet;
+  }
+);
+
+// --- create a new set ---
+export const createFlashcardSet = createAsyncThunk(
+  "flashcardSets/createFlashcardSet",
+  async (payload: { title: string; user: string; cards: Card[] }) => {
+    const response = await axios.post(`${FLASHCARDS_BASE_URL}/sets`, payload, {
+      withCredentials: true,
+    });
+    return response.data as FlashcardSet;
+  }
+);
+
+// --- update an existing set ---
+export const updateFlashcardSet = createAsyncThunk(
+  "flashcardSets/updateFlashcardSet",
+
+  async ({ id, payload }: { id: string; payload: FlashcardSetPayload }) => {
+    const response = await axios.put(
+      `${FLASHCARDS_BASE_URL}/sets/${id}`,
+      payload,
+      {
+        withCredentials: true,
+      }
     );
     return response.data as FlashcardSet;
   }
@@ -71,7 +103,6 @@ const flashcardSetsSlice = createSlice({
       .addCase(
         fetchFlashcardSetById.fulfilled,
         (state, action: PayloadAction<FlashcardSet>) => {
-          // If the set is already in the array, update it; otherwise add it
           const index = state.sets.findIndex(
             (s) => s._id === action.payload._id
           );
@@ -84,7 +115,28 @@ const flashcardSetsSlice = createSlice({
       )
       .addCase(fetchFlashcardSetById.rejected, (state, action) => {
         state.error = action.error.message || "Failed to fetch set";
-      });
+      })
+
+      // --- create ---
+      .addCase(
+        createFlashcardSet.fulfilled,
+        (state, action: PayloadAction<FlashcardSet>) => {
+          state.sets.push(action.payload);
+        }
+      )
+
+      // --- update ---
+      .addCase(
+        updateFlashcardSet.fulfilled,
+        (state, action: PayloadAction<FlashcardSet>) => {
+          const index = state.sets.findIndex(
+            (s) => s._id === action.payload._id
+          );
+          if (index >= 0) {
+            state.sets[index] = action.payload;
+          }
+        }
+      );
   },
 });
 
