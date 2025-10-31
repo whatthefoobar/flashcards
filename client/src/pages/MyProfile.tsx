@@ -43,7 +43,7 @@ const MyProfile = () => {
     }
   }, [dispatch, user]);
 
-  // card is a q and a set inside a flashcard set
+  // card is a q and a set inside a flashcard
   const handleAddCard = () => {
     setCards([...cards, { question: "", answer: "" }]);
   };
@@ -160,7 +160,7 @@ const MyProfile = () => {
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         <button
           onClick={() => setShowModal(true)}
-          className="w-full h-32 bg-green-400 rounded-lg shadow-md flex items-center justify-center text-4xl font-bold text-white hover:bg-green-500 transition"
+          className="block w-full h-32 bg-green-400 rounded-lg shadow-md  items-center justify-center text-4xl font-bold text-white hover:bg-green-500 transition"
         >
           +
         </button>
@@ -169,7 +169,7 @@ const MyProfile = () => {
           <div key={set._id} className="relative">
             <Link
               to={`/sets/${set._id}`}
-              className="block w-full h-32 bg-blue-200 rounded-lg shadow-md flex items-center justify-center font-semibold text-lg hover:bg-blue-300 transition"
+              className=" w-full h-32 bg-blue-200 rounded-lg shadow-md flex items-center justify-center font-semibold text-lg hover:bg-blue-300 transition"
             >
               {set.title}
             </Link>
